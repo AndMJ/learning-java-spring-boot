@@ -16,13 +16,13 @@ import java.time.ZoneId;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping("/api")
+@RequestMapping("/parking-spot")
 public class ParkingSpotController {
 
     @Autowired
     public ParkingSpotService PSservice;
 
-    @PostMapping("/parking-spot")
+    @PostMapping
     public ResponseEntity<Object> save(@RequestBody @Valid ParkingSpotDTO PSDTO){
         var PSmodel = new ParkingSpotModel(); //novo model de parking spot | novo registo
         PSmodel.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
