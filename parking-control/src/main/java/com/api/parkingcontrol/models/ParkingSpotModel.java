@@ -19,7 +19,7 @@ public class ParkingSpotModel implements Serializable {
     private String spotNumber;
 
     @Column(nullable = false, unique = true, length = 100)
-    private String licensePlate;
+    private String carLicensePlate;
 
     //TODO: JPA relations, create CAR MODEL and implement table relation
     @Column(nullable = false, length = 100)
@@ -59,12 +59,12 @@ public class ParkingSpotModel implements Serializable {
         this.spotNumber = spotNumber;
     }
 
-    public String getLicensePlate() {
-        return licensePlate;
+    public String getCarLicensePlate() {
+        return carLicensePlate;
     }
 
-    public void setLicensePlate(String licensePlate) {
-        this.licensePlate = licensePlate;
+    public void setCarLicensePlate(String licensePlate) {
+        this.carLicensePlate = licensePlate;
     }
 
     public String getCarBrand() {
