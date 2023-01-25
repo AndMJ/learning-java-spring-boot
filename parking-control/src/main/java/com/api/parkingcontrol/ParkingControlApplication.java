@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
-@RestController//("/api")
+@RestController
 public class ParkingControlApplication {
 
 	public static void main(String[] args) {
