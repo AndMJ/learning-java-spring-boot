@@ -2,3 +2,4 @@
 learning API building using java spring boot
 
 source: https://www.youtube.com/watch?v=LXRU-Z36GEU
+others: https://springframework.guru/spring-framework-annotations/
