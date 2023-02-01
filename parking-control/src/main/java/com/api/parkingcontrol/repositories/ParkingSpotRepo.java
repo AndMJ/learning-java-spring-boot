@@ -13,4 +13,9 @@ public interface ParkingSpotRepo extends JpaRepository</*model*/ ParkingSpotMode
     * but custom ones can be implemented
     * TODO: see how to create one transaction method
     * */
+
+    /*exists not working ?*/
+    boolean existsBySpotNumber(String spotNumber);
+
+    boolean existsByApartmentAndBlock(String apart, String block);
 }
