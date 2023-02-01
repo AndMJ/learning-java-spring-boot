@@ -3,6 +3,7 @@ package com.api.parkingcontrol.services;
 import com.api.parkingcontrol.models.ParkingSpotModel;
 import com.api.parkingcontrol.repositories.ParkingSpotRepo;
 import jakarta.transaction.Transactional;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +30,18 @@ public class ParkingSpotService {
     //GET BY ID
     public Optional<ParkingSpotModel> getByID(UUID id){
         return PSRepo.findById(id);
+    }
+
+    //DELETE BY ID
+    public void deleteByID(UUID id){
+        PSRepo.deleteById(id);
+    };
+
+    public boolean existsBySpotNumber(String spotNumber){
+        return PSRepo.existsBySpotNumber(spotNumber);
+    }
+
+    public boolean existsByApartmentAndBlock(String apart, String block){
+        return PSRepo.existsByApartmentAndBlock(apart, block);
     }
 }
