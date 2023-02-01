@@ -28,8 +28,17 @@ public class ParkingSpotController {
 
     @PostMapping("/create")
     public ResponseEntity<Object> save(@RequestBody @Valid ParkingSpotDTO PSDTO){
+        if(PSservice.existsBySpotNumber(PSDTO.getSpotNumber())){
+            ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: spot number already taken.");
+        }
+
+        if(PSservice.existsByApartmentAndBlock(PSDTO.getApartment(), PSDTO.getBlock())){
+            ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: apartment or block taken.");
+        }
+
         var PSmodel = new ParkingSpotModel(); //novo model de parking spot | novo registo
         PSmodel.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
+
         BeanUtils.copyProperties(PSDTO, PSmodel);
         return ResponseEntity.status(HttpStatus.CREATED).body(PSservice.save(PSmodel));
     }
@@ -45,11 +54,37 @@ public class ParkingSpotController {
 
         if (!dataFromDB.isPresent()) {
             JSONObject msg = new JSONObject();
-            msg.put("message","Spot Not Found.");
+            msg.put("message","Not Found.");
             msg.put("status", HttpStatus.NOT_FOUND.value());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(dataFromDB);
+    }
+
+
+    @DeleteMapping("/delete/{id}") //DELETE BY ID
+    public ResponseEntity<Object> delete(@PathVariable(value = "id") UUID id){
+        Optional<ParkingSpotModel> dataToDelete = PSservice.getByID(id);
+
+        if(!dataToDelete.isPresent()){
+            JSONObject msg = new JSONObject();
+
+            msg.put("message","Not Found.");
+            msg.put("code",HttpStatus.NOT_FOUND.value());
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
+        }
+
+        JSONObject msg = new JSONObject();
+        try {
+            PSservice.deleteByID(id);
+            msg.put("message", "Deleted.");
+            msg.put("code", HttpStatus.OK.value());
+        } catch (Exception e){
+            msg.put("message",e.getMessage());
+            msg.put("code", HttpStatus.CONFLICT.value());
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(msg);
     }
 }
